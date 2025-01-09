@@ -49,3 +49,21 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  codeql-analysis:
+    name: Perform CodeQL Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Build CodeQL database
+        run: npm install && npm run build
+
+      - name: Analyze CodeQL database
+        uses: github/codeql-action/analyze@v2
